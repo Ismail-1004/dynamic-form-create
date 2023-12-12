@@ -2,6 +2,11 @@
 import MyInput from '@/components/ui/MyInput.vue'
 import MyBtn from '@/components/ui/MyBtn.vue'
 export default {
+    methods: {
+        submitHandler () {
+            this.$router.push('/')
+        }
+    },
     components: {
         MyInput,
         MyBtn
@@ -19,7 +24,7 @@ export default {
 
                 <h1 class="sidebar__content-title">Авторизация</h1>
 
-                <form class="sidebar__content-form">
+                <form class="sidebar__content-form" @submit.prevent="submitHandler">
                     <MyInput />
                     <MyInput />
                     <MyBtn :text="'Вход'" class="sidebar__content-btn" />
@@ -45,6 +50,8 @@ export default {
    height: 100%;
 
    padding: 80px 0 62px 0;
+
+   z-index: 999;
 
    display: flex;
    justify-content: center;
