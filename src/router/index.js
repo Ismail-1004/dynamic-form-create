@@ -7,7 +7,14 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
+      meta: { layout: 'main' },
       component: HomeView
+    },
+    {
+      path: '/auth',
+      name: 'auth',
+      meta: { layout: 'empty' },
+      component: () => import('../views/Auth.vue')
     }
   ]
 })
