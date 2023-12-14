@@ -42,7 +42,7 @@ export default {
 
 <style lang="scss" scoped>
 .sidebar {
-   max-width: 624px;
+   max-width: 434px;
    width: 100%;
    border-radius: 0 10px 10px 0;
    background: #FFF;

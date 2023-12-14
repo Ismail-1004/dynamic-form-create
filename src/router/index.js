@@ -15,6 +15,12 @@ const router = createRouter({
       name: 'auth',
       meta: { layout: 'empty' },
       component: () => import('../views/Auth.vue')
+    },
+    {
+      path: '/create',
+      name: 'create',
+      meta: { layout: 'main' },
+      component: () => import('../views/FormCreate.vue')
     }
   ]
 })
