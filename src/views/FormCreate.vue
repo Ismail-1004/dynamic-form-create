@@ -1,6 +1,8 @@
 <script>
-import MyBtn from '@/components/ui/MyBtn.vue'
 import { mapGetters, mapMutations } from 'vuex'
+import MyBtn from '@/components/ui/MyBtn.vue'
+import FieldVue from '@/components/forms/Field.vue'
+import MyBtnVue from '@/components/forms/MyBtn.vue'
 export default {
     computed: {
         ...mapGetters(['fields', 'defaultSettings'])
@@ -8,12 +10,13 @@ export default {
     methods: {
         appendField () {
             this.createForm({...this.defaultSettings})
-            console.log(this.fields);
         },
         ...mapMutations(['createForm', 'removeField'])
     },
     components: {
-        MyBtn
+        MyBtn,
+        FieldVue,
+        MyBtnVue
     }
 }
 </script>
@@ -25,36 +28,19 @@ export default {
             <h1 class="create__content-title"> Поля </h1>
             <div class="create__content-hidden">
                 <h2 class="create__content-subTitle"> Скрытые поля </h2>
-                <button class="create__content-btn"> Добавить поле </button>
+                <MyBtnVue :text="'Добавить поле'" />
             </div>
             <div class="create__content-filed">
                 <h2 class="create__content-subTitle"> Поля </h2>
                 <div class="create__content-results">
-                    <div class="create__content-result result" v-for="(filed, key) in fields" :key="key">
-                        <div class="result__head">
-                            <div class="result__head-info"> 
-                                <span> Фамилия </span>
-                                <span> Контакт </span>
-                            </div>
-                             <div class="result__head-delete"> 
-                                <button class="result__head-btn" @click="removeField(key)"> Удалить </button>
-                            </div>
-                        </div>
-                        <div class="result__body">
-                            <input class="result__body-input" v-model="filed.value" >
-                        </div>
-                        <div class="result__footer">
-                            <div class="result__footer-checkbox">
-                                <input type="checkbox" v-model="filed.isRequired"> Сделать поле обязательным
-                            </div>
-                        </div>
-                    </div>
+                    <FieldVue ref="input" v-for="(field, key) in fields" :key="key" :field="field" :fieldId="key" />
                 </div>
-                <button class="create__content-btn" @click="appendField"> Добавить поле </button>
+                <MyBtnVue :text="'Добавить поле'"  @click="appendField" style="margin-bottom: 30px;" />
+                <MyBtnVue :text="'Добавить страницу формы'" />
             </div>
         </div>
         <div class="create__content-debug">
-            <form class="create__content-form">
+            <form class="create__content-form" v-if="fields.length">
                 <h2 class="create__content-subTitle title"> Форма регистрации участников </h2>
                 <div v-for="(filed, key) in fields" :key="key" >
                     <input type="text" class="create__content-input" :required="filed.isRequired" :placeholder="filed.value">
@@ -66,6 +52,9 @@ export default {
                 
                 <my-btn :text="'Отправить'" class="create__content-submit" />
             </form> 
+            <div v-else>
+                <h2 class="create__content-debugTitle"> Добавьте поля, для просмотра формы </h2>
+            </div>
         </div>
     </div>    
 </div>    
@@ -110,22 +99,6 @@ export default {
             width: max-content;
             border-radius: 4px;
             border: 1px solid var(--primary_color, #3EA748);
-        }
-
-        &-btn {
-            border-radius: 10px;
-            border: 1px dashed var(--primary_color, #3EA748);
-            background: transparent;
-            padding: 21px 30px;
-            width: 100%;
-
-            color: var(--primary_color, #3EA748);
-            // font-family: Cera Pro;
-            font-size: 16px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: normal;
-            cursor: pointer;
         }
 
         &-results {
@@ -182,72 +155,9 @@ export default {
             width: 100%;
             margin-top: 50px;
         }
-    }
-}
 
-.result {
-    &__head {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        margin-bottom: 9px;
-
-        &-info {
-            & span {
-                color: #000;
-                // font-family: Cera Pro;
-                font-size: 16px;
-                font-style: normal;
-                font-weight: 400;
-                line-height: normal;
-
-                opacity: 0.5;
-
-                &:not(:last-of-type) {
-                    margin-right: 16px;
-                }
-            }
-        }
-
-        &-btn {
-            color: var(--primary_color, #3EA748);
-            // font-family: Cera Pro;
-            font-size: 16px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: normal;
-            background: transparent;
-            border: none;
-        }
-    }
-
-    &__body {
-        margin-bottom: 13px;
-
-        &-input {
-            border-radius: 10px;
-            background: #FFF;
-            padding: 30px;
-        }
-    }
-
-    &__footer {
-        &-checkbox {
-            // font-family: Cera Pro;
-            font-size: 14px;
-            font-style: normal;
-            font-weight: 500;
-            line-height: normal;
-
-            & input {
-                width: max-content;
-                margin-right: 16px;
-                border-radius: 4px;
-                border: 1px solid var(--text-color, #212121);
-                opacity: 0.5;
-                color: var(--text-color, #212121);
-            }
+        &-debugTitle {
+            color: white;
         }
     }
 }

@@ -19,7 +19,12 @@ export default {
       <router-link to="/create" class="form__link"> Создать форму </router-link>
     </div>
     <div class="forms__content">
-      <FormInfoVue v-for="form in forms" :key="form.id" />
+      <div v-if="forms.length">
+        <FormInfoVue v-for="form in forms" :key="form.id" :form="form" />
+      </div>
+      <div v-else>
+        <h2 class="forms__content-title"> Создайте свою первую форму! </h2>
+      </div>
     </div>
   </div>
 </template>
@@ -34,6 +39,15 @@ export default {
     display: flex;
     justify-content: space-between;
     margin-bottom: 50px;
+  }
+
+  &__content {
+    &-title {
+      color: #3EA748;
+      text-align: center;
+      font-size: 40px;
+      margin-top: 30px;
+    }
   }
 }
 </style>

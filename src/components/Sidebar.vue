@@ -1,15 +1,35 @@
 <script>
 import MyInput from '@/components/ui/MyInput.vue'
 import MyBtn from '@/components/ui/MyBtn.vue'
+import FormsMainListVue from './FormsMainList.vue'
+import ListVue from './forms/List.vue'
+
+import { mapMutations } from 'vuex'
+
 export default {
     methods: {
+        ...mapMutations(['saveForm', 'resetFields']),
+
         exitHandler () {
             this.$router.push('/auth')
+        },
+
+        saveFormHandler () {
+            this.saveForm()
+            this.$router.push('/')
+            this.resetFields()
+        }
+    },
+    computed: {
+        isCreatePage () {
+            return this.$router.currentRoute.value.path.includes('/create')
         }
     },
     components: {
         MyInput,
-        MyBtn
+        MyBtn,
+        FormsMainListVue,
+        ListVue
     }
 }
 </script>
@@ -22,18 +42,16 @@ export default {
                     <img src="@/assets/images/logo.png" alt="">
                 </div>
 
-                <ul class="sidebar__content-list">
-                    <li class="sidebar__content-item">
-                        <router-link to="/" class="sidebar__content-link">Формы</router-link>
-                    </li>
-                    <li class="sidebar__content-item">
-                        <router-link to="/" class="sidebar__content-link">Пользователи</router-link>
-                    </li>
-                </ul>
+                <FormsMainListVue v-if="!isCreatePage" />
+                <ListVue v-else/>
 
             </div>
-            <div class="sidebar__content-exit">
+            <div class="sidebar__content-exit" v-if="!isCreatePage">
                <MyBtn @click="exitHandler" :text="'Выход'" :isExitBtn="true" />
+            </div>
+             <div class="sidebar__content-script" v-else>
+               <MyBtn :text="'Скрипт'" :isExitBtn="true" />
+               <MyBtn :text="'Сохранить'" @click="saveFormHandler" />
             </div>
         </div>
         
@@ -65,20 +83,10 @@ export default {
     
     max-width: max-content;
 
-    &-list {
-        margin-top: 30px;
-    }
-
-    &-item {
-        margin-bottom: 16px;
-    }
-
-    &-link {
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-        color: #000;
+    &-script {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
     }
 
     &-help {

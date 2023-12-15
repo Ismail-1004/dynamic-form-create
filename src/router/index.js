@@ -21,6 +21,17 @@ const router = createRouter({
       name: 'create',
       meta: { layout: 'main' },
       component: () => import('../views/FormCreate.vue')
+    },
+    {
+      path: '/edit/:id',
+      name: 'Edit',
+      meta: { layout: 'main' },
+      component: () => import('../views/FormEdit.vue')
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: () => import('../views/NotFound.vue')
     }
   ]
 })

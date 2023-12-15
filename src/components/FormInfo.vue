@@ -11,7 +11,7 @@ export default {
             <h2 class="form__head-title"> Форма регистрации участников </h2>
             <span class="form__head-user span"> Автор: user 1  </span>
           </div>
-          <router-link to="/" class="form__link transparent-w-border"> Редактировать </router-link>
+          <router-link :to="({ name: 'Edit', params: { id: form.id } })" class="form__link transparent-w-border"> Редактировать </router-link>
         </div>
         <div class="form__footer">
           <span class="form__head-date span">Дата создания: 01.01.23</span>

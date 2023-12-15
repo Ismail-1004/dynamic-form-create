@@ -1,24 +1,31 @@
 export default {
     state: {
         fields: [],
+        forms: [],
         defaultSettings: {
             value: '',
             isRequired: false
-        }
+        },
+
     },
     mutations: {
-        createForm (state, form) {
-            state.fields.push(form)
+        createForm (state, field) {
+            state.fields.push(field)
         },
         removeField (state, idx) {
-            console.log(idx);
             state.fields = state.fields.filter((field, index) => index !== idx)
-
-            console.log(state.fields);
+        },
+        saveForm (state) {
+            state.forms.unshift({id: Date.now(), fields: [...state.fields]})
+            console.log(state.forms);
+        },
+        resetFields (state) {
+            state.fields = []
         }
     },
     getters: {
         fields: s => s.fields,
-        defaultSettings: s => s.defaultSettings
+        defaultSettings: s => s.defaultSettings,
+        forms: s => s.forms
     }
 }
