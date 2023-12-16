@@ -3,6 +3,7 @@ import MyInput from '@/components/ui/MyInput.vue'
 import MyBtn from '@/components/ui/MyBtn.vue'
 import FormsMainListVue from './FormsMainList.vue'
 import ListVue from './forms/List.vue'
+import EditListVue from './edit/EditList.vue'
 
 import { mapMutations } from 'vuex'
 
@@ -23,13 +24,17 @@ export default {
     computed: {
         isCreatePage () {
             return this.$router.currentRoute.value.path.includes('/create')
+        },
+        isEditPage () {
+            return this.$route.path.includes('edit') 
         }
     },
     components: {
         MyInput,
         MyBtn,
         FormsMainListVue,
-        ListVue
+        ListVue,
+        EditListVue
     }
 }
 </script>
@@ -42,7 +47,8 @@ export default {
                     <img src="@/assets/images/logo.png" alt="">
                 </div>
 
-                <FormsMainListVue v-if="!isCreatePage" />
+                <FormsMainListVue v-if="!isCreatePage && !isEditPage" />
+                <EditListVue v-else-if="isEditPage" />
                 <ListVue v-else/>
 
             </div>
